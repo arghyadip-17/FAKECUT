@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FAKECUT — Detect. Verify. Eliminate Scams.</title>
+  <!-- Basic favicon -->
+<link rel="icon" href="/static/favicon.ico" type="image/x-icon">
+
+<!-- PNG favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png">
+
+<!-- Apple devices -->
+<link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png">
+
+<!-- Manifest (PWA support) -->
+<link rel="manifest" href="/static/site.webmanifest">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="grain"></div>
+
+<!-- ── NAV ───────────────────────────────────────────────────── -->
+<nav class="nav">
+  <div class="nav-brand">
+    <img src="{{ url_for('static', filename='fakecut-logo.png') }}" alt="FAKECUT logo" class="nav-logo" />
+    <span class="nav-name">FAKECUT</span>
+  </div>
+  <div class="nav-right">
+    <button id="feedbackBtn" class="nav-link" type="button">Rate Us</button>
+    <button id="themeToggle" class="theme-btn" type="button">☀</button>
+  </div>
+</nav>
+
+<!-- ── HERO ──────────────────────────────────────────────────── -->
+<header class="hero">
+  <div class="hero-content">
+    <div class="hero-eyebrow">
+      <span class="dot"></span> Free &middot; Instant &middot; No Sign-up
+    </div>
+    <h1 class="hero-title">
+      Spot the fake.<br><em>Before it's too late.</em>
+    </h1>
+    <p class="hero-sub">
+      Paste any job, internship, scholarship or freelance post.<br>
+      We cut through the lies and flag every red flag.
+    </p>
+  </div>
+  <div class="hero-logo-wrap">
+    <img src="{{ url_for('static', filename='fakecut-logo.png') }}" alt="FAKECUT" class="hero-logo" />
+  </div>
+</header>
+
+<!-- ── TOOL ──────────────────────────────────────────────────── -->
+<section class="tool-section">
+  <div class="tool-card">
+
+    <div class="input-col">
+      <label for="urlInput">Post URL <span class="opt">(optional)</span></label>
+      <input id="urlInput" type="text" placeholder="https://example.com/job-post" autocomplete="off" spellcheck="false" />
+
+      <label for="inputText">Paste the full post</label>
+      <textarea id="inputText" placeholder="Paste the job / internship / scholarship text here…"></textarea>
+
+      <div class="actions">
+        <button id="checkBtn" class="primary-btn" type="button">
+          <span>🔍</span> Analyse Now
+        </button>
+        <button id="copyBtn" class="outline-btn" type="button">📋 Copy</button>
+        <button id="clearBtn" class="ghost-btn" type="button">Clear</button>
+      </div>
+      <p class="note">⚠ Detects warning signs only — always verify manually.</p>
+    </div>
+
+    <div class="result-col">
+      <div id="emptyState" class="empty-state">
+        <div class="es-icon">🕵️</div>
+        <p class="es-title">Results appear here</p>
+        <p class="es-sub">Paste a post and hit Analyse Now.</p>
+      </div>
+
+      <div id="result" class="hidden">
+        <div class="result-top">
+          <div class="result-meta">
+            <span id="badge" class="badge">—</span>
+            <h3 id="verdict" class="verdict-text">—</h3>
+            <p id="explanation" class="explanation"></p>
+          </div>
+          <div class="score-ring">
+            <svg viewBox="0 0 80 80">
+              <circle cx="40" cy="40" r="34" class="ring-bg"/>
+              <circle cx="40" cy="40" r="34" class="ring-fill" id="ringFill"/>
+            </svg>
+            <div class="score-num">
+              <span id="score">0</span>
+              <small>/100</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="tabs">
+          <button class="tab active" data-tab="highlight">Highlight</button>
+          <button class="tab" data-tab="reasons">Reasons</button>
+          <button class="tab" data-tab="advice">Advice</button>
+        </div>
+
+        <div id="tab-highlight" class="tab-panel active">
+          <div id="highlightedText" class="highlight-box"></div>
+        </div>
+        <div id="tab-reasons" class="tab-panel hidden">
+          <ul id="reasons" class="reason-list"></ul>
+        </div>
+        <div id="tab-advice" class="tab-panel hidden">
+          <ul id="advice" class="advice-list"></ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── FEATURES ──────────────────────────────────────────────── -->
+<section class="section">
+  <div class="section-header">
+    <span class="section-tag">What we check</span>
+    <h2 class="section-title">Built to catch every trick<br>scammers use</h2>
+  </div>
+  <div class="features-grid">
+    <div class="feat-card">
+      <div class="feat-icon">💸</div>
+      <h4>Fee Requests</h4>
+      <p>Registration fees, security deposits, advance payments — classic traps flagged instantly.</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">⏰</div>
+      <h4>Urgency Pressure</h4>
+      <p>"Apply immediately", "Limited seats", "Hurry up" — fear-of-missing-out manipulation exposed.</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">🤑</div>
+      <h4>Unrealistic Promises</h4>
+      <p>"Earn ₹5000/day", "No skill required", "Guaranteed salary" — too-good-to-be-true claims caught.</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">🔗</div>
+      <h4>Suspicious URLs</h4>
+      <p>Shortened links, shady domains, and unusual subdomains that hide a scammer's true identity.</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">🔒</div>
+      <h4>Data Theft Warnings</h4>
+      <p>Posts asking for OTP, Aadhaar, PAN card, or bank account details — major red flags.</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">📲</div>
+      <h4>Informal Contacts</h4>
+      <p>WhatsApp/Telegram/DM-only contact with no official company channel detected.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── HOW IT WORKS ───────────────────────────────────────────── -->
+<section class="section how-section">
+  <div class="section-header">
+    <span class="section-tag">How it works</span>
+    <h2 class="section-title">Three steps. Zero stress.</h2>
+  </div>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <h4>Paste the post</h4>
+      <p>Copy the job, internship, scholarship, or freelance offer and paste the full text or URL.</p>
+    </div>
+    <div class="step-divider">→</div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <h4>We analyse it</h4>
+      <p>Our engine scans 50+ known scam signals across language patterns, URLs, and data requests.</p>
+    </div>
+    <div class="step-divider">→</div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <h4>Get your verdict</h4>
+      <p>Risk score, colour-coded verdict, highlighted suspicious text, and safety advice — instantly.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── FAQ ────────────────────────────────────────────────────── -->
+<section class="section">
+  <div class="section-header">
+    <span class="section-tag">FAQ</span>
+    <h2 class="section-title">Questions we get a lot</h2>
+  </div>
+  <div class="faq-list">
+    <details class="faq-item">
+      <summary>Is this tool free to use?</summary>
+      <p>Yes — 100% free, no account needed, no hidden charges. Paste and check, that's it.</p>
+    </details>
+    <details class="faq-item">
+      <summary>Does it store the text I paste?</summary>
+      <p>No. The text you submit is only processed in memory to generate a result and is never saved.</p>
+    </details>
+    <details class="faq-item">
+      <summary>Can it guarantee a post is safe?</summary>
+      <p>No tool can guarantee that. FAKECUT flags known warning patterns — always do your own verification by checking the company's official website and LinkedIn.</p>
+    </details>
+    <details class="faq-item">
+      <summary>What if my post scores low but still feels off?</summary>
+      <p>Trust your instincts. A low score means fewer red-flag patterns were detected — not that the opportunity is verified.</p>
+    </details>
+    <details class="faq-item">
+      <summary>Does it work for scholarships and freelance gigs too?</summary>
+      <p>Yes! The rules cover job posts, internships, scholarship announcements, and freelance offers. Scam tactics repeat across all these categories.</p>
+    </details>
+    <details class="faq-item">
+      <summary>What does the risk score mean?</summary>
+      <p>0–30 is "Likely Safe", 31–60 is "Caution", and 61–100 is "Suspicious". Higher scores mean more scam signals were found.</p>
+    </details>
+    <details class="faq-item">
+      <summary>Can I check just a URL without the full text?</summary>
+      <p>Yes. Paste the URL in the URL field and leave the text box empty. The tool will analyse the domain for shortened links and suspicious patterns.</p>
+    </details>
+  </div>
+</section>
+
+<!-- ── HISTORY ────────────────────────────────────────────────── -->
+<section class="section history-section">
+  <div class="history-top">
+    <div>
+      <span class="section-tag">Session</span>
+      <h2 class="section-title" style="margin-bottom:0">Recent Checks</h2>
+    </div>
+    <button id="clearHistoryBtn" class="ghost-btn" type="button">Clear</button>
+  </div>
+  <div id="historyList" class="history-list"></div>
+</section>
+
+<!-- ── FOOTER ─────────────────────────────────────────────────── -->
+<footer class="footer">
+  <img src="{{ url_for('static', filename='fakecut-logo.png') }}" alt="FAKECUT" class="footer-logo" />
+  <p><strong>FAKECUT</strong> — Detect. Verify. Eliminate Scams.</p>
+  <p class="muted">© 2026 Created by Arghyadip Ghosh | All Rights Reserved.</p>
+</footer>
+
+<!-- ── RATING MODAL ───────────────────────────────────────────── -->
+<div id="ratingModal" class="modal-overlay hidden">
+  <div class="modal">
+    <button class="modal-close" id="ratingClose" type="button">✕</button>
+    <img src="{{ url_for('static', filename='fakecut-logo.png') }}" alt="FAKECUT" class="modal-logo" />
+    <h3>How was your experience?</h3>
+    <p>Help us improve FAKECUT with a quick rating.</p>
+    <div class="stars" id="starRow">
+      <span class="star" data-v="1">★</span>
+      <span class="star" data-v="2">★</span>
+      <span class="star" data-v="3">★</span>
+      <span class="star" data-v="4">★</span>
+      <span class="star" data-v="5">★</span>
+    </div>
+    <button id="submitFeedback" class="primary-btn full-btn" type="button">Send Rating</button>
+  </div>
+</div>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
